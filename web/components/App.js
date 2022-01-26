@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import React from 'react';
 
 import Guess from './Guess';
+import Settings from './Settings';
 import Share from './Share';
 
 const BLANK_GUESS = [['', 3], ['', 3], ['', 3], ['', 3], ['', 3]];
@@ -76,7 +77,7 @@ export default function App({api}) {
       case 'submit': {
         let newGuess;
         if (state.activeRow === 0) {
-          newGuess = api.first_guess(state.guesses[0].map(g => g[1]));
+          newGuess = api.first_guess(...state.guesses[0].map(g => g[1]));
         } else {
           newGuess = api.make_guess(
             state.guesses
@@ -182,6 +183,7 @@ export default function App({api}) {
           !state.loading && dispatch({type: 'reset'});
         }}>Start Over</button>
       </div>
+      <Settings />
     </>
   );
 }

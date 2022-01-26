@@ -18,8 +18,8 @@
       <p>Think of a valid five-letter word. The computer will try to guess it in as few turns as possible. The more rounds it takes, the better your score.</p>
       <p>For each guess, you will need to tell the computer which letters it got right:</p>
       <ul>
-        <li>🟩 Green: This letter is correct</li>
-        <li>🟨 Yellow: This letter is present in the word but not at this position</li>
+        <li>🟩 Green (orange in color blind mode): This letter is correct</li>
+        <li>🟨 Yellow (blue in color blind mode): This letter is present in the word but not at this position</li>
         <li>⬛ Black: This letter is not present in the word</li>
       </ul>
       <p>Count each letter only once. If there are duplicate letters, assign green letters first, then give out yellows starting from the left. For example:</p>
@@ -35,12 +35,12 @@
           <tr>
             <td>AESIR</td>
             <td>SEALS</td>
-            <td>🟨🟨🟨⬛⬛</td>
+            <td>🟨🟩🟨⬛⬛</td>
           </tr>
           <tr>
             <td>SEALS</td>
             <td>AESIR</td>
-            <td>🟨🟨🟨⬛⬛</td>
+            <td>🟨🟩🟨⬛⬛</td>
           </tr>
           <tr>
             <td>SEEMS</td>

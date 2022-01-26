@@ -16,6 +16,18 @@ html {
   --primary-action-color: #023e9c;
 }
 
+html.colorblind {
+  --tile-present-color: #00AEE2;
+  --tile-correct-color: #FF6500;
+}
+
+html.high-contrast {
+  --color: white;
+  --body-background-color: black;
+  --secondary-color: #ddd;
+  --tile-border-color: white;
+}
+
 body {
   background: var(--body-background-color);
   color: var(--color);
@@ -72,8 +84,7 @@ a {
 }
 
 #react-root {
-  min-height: 529px;
-  margin-bottom: 24px;
+  min-height: 617px;
 }
 
 #errors {
@@ -163,6 +174,10 @@ a {
   border-color: var(--tile-not-present-color);
 }
 
+html.high-contrast .tile.score-not-present {
+  border-color: var(--tile-border-color);
+}
+
 .tile.score-present {
   background: var(--tile-present-color);
   border-color: var(--tile-present-color);
@@ -220,6 +235,18 @@ button.secondary {
   background: var(--tile-not-present-color);
 }
 
+html.high-contrast .game-action,
+html.high-contrast .modal-action {
+  border: 2px solid var(--tile-border-color);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html.high-contrast button.secondary {
+  background: none;
+}
+
 .game-action + .game-action, .modal-action + .modal-action {
   margin-left: 8px;
 }
@@ -258,40 +285,14 @@ button.secondary {
   font-weight: 500;
 }
 
-#about {
+#settings {
+  margin-top: 40px;
+}
+
+#about, #settings {
   line-height: 1.4;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 8px;
 }
-
-/* need to move the solver into a web worker to enable loading animation
-.tile.loading {
-  animation: tile_loading 1.5s 0s infinite ease-in-out running both;
-}
-
-.tile.loading:nth-child(2) {
-  animation-delay: 0.1s;
-}
-
-.tile.loading:nth-child(3) {
-  animation-delay: 0.2s;
-}
-
-.tile.loading:nth-child(4) {
-  animation-delay: 0.3s;
-}
-
-.tile.loading:nth-child(5) {
-  animation-delay: 0.4s;
-}
-
-@keyframes tile_loading {
-  0% {
-    background: var(--body-background-color);
-  }
-  60% {
-    background: var(--tile-not-present-color);
-  }
-  100% {
-    background: var(--body-background-color);
-  }
-}
-*/
