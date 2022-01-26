@@ -1,0 +1,14 @@
+[package]
+name = "reverse-wordle"
+version = "0.1.0"
+authors = ["Simon Zeng"]
+license = "MIT"
+description = "Wordle but in reverse"
+
+
+[dependencies]
+bitintr = "0.3.0"
+wasm-bindgen = "0.2"
+
+[lib]
+crate-type = ["cdylib"]

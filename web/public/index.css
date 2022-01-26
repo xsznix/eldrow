@@ -1,0 +1,297 @@
+html {
+  --main-width: 500px;
+  --body-background-color: #121213;
+  --color: #d7dadc;
+  --secondary-color: #88898a;
+  --error-color: #dc3a28;
+  --error-background-color: #4c201b;
+  --tile-border-color: #444;
+  --tile-not-present-color: #3a3a3c;
+  --tile-present-color: #b59f3b;
+  --tile-correct-color: #538d4e;
+  --tile-loading-color: #272729;
+  --wash-background-color: #0008;
+  --modal-background-color: #202021;
+  --link-color: #5be;
+  --primary-action-color: #023e9c;
+}
+
+body {
+  background: var(--body-background-color);
+  color: var(--color);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+
+a {
+  color: var(--link-color);
+}
+
+#root {
+  margin: 0 auto;
+  padding-top: 4px;
+  width: 100%;
+  max-width: var(--main-width);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+}
+
+#header {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--tile-border-color);
+}
+
+#title {
+  margin: 0;
+  transform: scaleX(-1);
+
+  text-align: center;
+
+  letter-spacing: 3px;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+#description {
+  margin: 0;
+  text-align: center;
+
+  font-size: 14px;
+}
+
+#react-root {
+  min-height: 529px;
+  margin-bottom: 24px;
+}
+
+#errors {
+  height: 17px;
+  width: 287px;
+  padding: 16px;
+  margin: 16 auto;
+  visibility: hidden;
+
+  background: var(--error-background-color);
+  border-radius: 6px;
+  border-left: 6px solid var(--error-color);
+}
+
+#errors.visible {
+  visibility: visible;
+  animation: shake 0.5s 0s 1 linear;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0px);
+  }
+  10% {
+    transform: translateX(-5px);
+  }
+  30% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  70% {
+    transform: translateX(5px);
+  }
+  90% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.guess {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: center;
+}
+
+.tile {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 60px;
+  width: 60px;
+  margin: 3px;
+  border: 2px solid var(--tile-border-color);
+
+  color: var(--color);
+
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+
+  user-select: none;
+}
+
+.tile.active {
+  transition: 50ms ease-out background, 50ms ease-out border-color;
+}
+
+.tile:not(:disabled) {
+  cursor: pointer;
+}
+
+.tile.score-empty {
+  background: var(--body-background-color);
+}
+
+.tile.score-not-present {
+  background: var(--tile-not-present-color);
+  border-color: var(--tile-not-present-color);
+}
+
+.tile.score-present {
+  background: var(--tile-present-color);
+  border-color: var(--tile-present-color);
+}
+
+.tile.score-correct {
+  background: var(--tile-correct-color);
+  border-color: var(--tile-correct-color);
+}
+
+.tile.loading {
+  color: var(--secondary-color);
+}
+
+#game-actions {
+  margin: 16px auto 0;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+  justify-content: center;
+  width: fit-content;
+  -ms-align-self: center;
+  align-self: center;
+}
+
+button {
+  border-radius: 6px;
+  font-size: 16px;
+  border: none;
+  color: inherit;
+  height: 36px;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+.game-action {
+  width: fit-content;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.modal-action {
+  width: 128px;
+}
+
+button.primary {
+  background: var(--primary-action-color);
+}
+
+button.secondary {
+  background: var(--tile-not-present-color);
+}
+
+.game-action + .game-action, .modal-action + .modal-action {
+  margin-left: 8px;
+}
+
+.modal-wash {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--wash-background-color);
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  left: 50%;
+  right: 50%;
+  height: fit-content;
+  width: 300px;
+  margin: -82px -150px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 6px;
+  background: var(--modal-background-color);
+  z-index: 1;
+}
+
+.modal > h2 {
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+#about {
+  line-height: 1.4;
+}
+
+/* need to move the solver into a web worker to enable loading animation
+.tile.loading {
+  animation: tile_loading 1.5s 0s infinite ease-in-out running both;
+}
+
+.tile.loading:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.tile.loading:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.tile.loading:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.tile.loading:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes tile_loading {
+  0% {
+    background: var(--body-background-color);
+  }
+  60% {
+    background: var(--tile-not-present-color);
+  }
+  100% {
+    background: var(--body-background-color);
+  }
+}
+*/

@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./index.css" />
+  <title>Eldrow &ndash; Wordle with reversed roles</title>
+</head>
+<body>
+  <div id="root">
+    <header id="header">
+      <h1 id="title" aria-label="ELDROW">WORDLE</h1>
+      <p id="description">reverse <a href="https://www.powerlanguage.co.uk/wordle/">wordle</a> by @xsznix</p>
+    </header>
+    <div id="react-root"></div>
+    <section id="about" aria-labelledby="instructions">
+      <h2 id="instructions">How to play</h2>
+      <p>Think of a valid five-letter word. The computer will try to guess it in as few turns as possible. The more rounds it takes, the better your score.</p>
+      <p>For each guess, you will need to tell the computer which letters it got right:</p>
+      <ul>
+        <li>🟩 Green: This letter is correct</li>
+        <li>🟨 Yellow: This letter is present in the word but not at this position</li>
+        <li>⬛ Black: This letter is not present in the word</li>
+      </ul>
+      <p>Count each letter only once. If there are duplicate letters, assign green letters first, then give out yellows starting from the left. For example:</p>
+      <table cellspacing="12">
+        <thead>
+          <tr>
+            <th>Guess</th>
+            <th>Secret</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AESIR</td>
+            <td>SEALS</td>
+            <td>🟨🟨🟨⬛⬛</td>
+          </tr>
+          <tr>
+            <td>SEALS</td>
+            <td>AESIR</td>
+            <td>🟨🟨🟨⬛⬛</td>
+          </tr>
+          <tr>
+            <td>SEEMS</td>
+            <td>BEARS</td>
+            <td>⬛🟩⬛⬛🟩</td>
+          </tr>
+          <tr>
+            <td>ERROR</td>
+            <td>RARER</td>
+            <td>🟨🟨🟩⬛🟩</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>The dictionary of guessable words is taken from the original <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> by John Wardle.</p>
+    </section>
+  </div>
+</body>
+</html>
