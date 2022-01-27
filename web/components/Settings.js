@@ -14,24 +14,24 @@ export default function Settings() {
     'high-contrast',
   );
   return <div id="settings">
-    <div>
+    <label htmlFor="colorblind">
       <input
         type="checkbox"
         id="colorblind"
         defaultChecked={colorBlind}
         onChange={setColorBlind}
       />
-      <label htmlFor="colorblind">Color-blind mode</label>
-    </div>
-    <div>
+      Color-blind mode
+    </label>
+    <label htmlFor="high-contrast">
       <input
         type="checkbox"
         id="high-contrast"
         defaultChecked={highContrast}
         onChange={setHighContrast}
       />
-      <label htmlFor="high-contrast">High contrast mode</label>
-    </div>
+      High contrast mode
+    </label>
   </div>;
 }
 

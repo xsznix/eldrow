@@ -2,6 +2,7 @@ html {
   --main-width: 500px;
   --body-background-color: #121213;
   --color: #d7dadc;
+  --tile-color: #d7dadc;
   --secondary-color: #88898a;
   --error-color: #dc3a28;
   --error-background-color: #4c201b;
@@ -17,12 +18,14 @@ html {
 }
 
 html.colorblind {
-  --tile-present-color: #00AEE2;
-  --tile-correct-color: #FF6500;
+  --tile-color: white;
+  --tile-present-color: #0090bb;
+  --tile-correct-color: #e55b00;
 }
 
 html.high-contrast {
   --color: white;
+  --tile-color: white;
   --body-background-color: black;
   --secondary-color: #ddd;
   --tile-border-color: white;
@@ -146,7 +149,7 @@ a {
   margin: 3px;
   border: 2px solid var(--tile-border-color);
 
-  color: var(--color);
+  color: var(--tile-color);
 
   font-size: 30px;
   font-weight: 700;
@@ -174,7 +177,7 @@ a {
   border-color: var(--tile-not-present-color);
 }
 
-html.high-contrast .tile.score-not-present {
+html.high-contrast .tile {
   border-color: var(--tile-border-color);
 }
 
@@ -285,14 +288,25 @@ html.high-contrast button.secondary {
   font-weight: 500;
 }
 
-#settings {
-  margin-top: 40px;
-}
-
 #about, #settings {
   line-height: 1.4;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 8px;
+  padding: 0 8px;
+}
+
+#settings {
+  margin-top: 40px;
+  line-height: 40px;
+}
+
+#settings > label {
+  display: block;
+  height: 40px;
+  cursor: pointer;
+}
+
+#settings input {
+  margin-right: 8px;
 }
