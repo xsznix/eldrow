@@ -3,6 +3,7 @@ use crate::guess::Guess;
 const ELS: usize = 4;
 const EL_SIZE: usize = 64;
 
+// Keeps track of which combinations of hint types have already been visited.
 #[repr(align(32))]
 #[derive(Clone)]
 pub struct VisitedGuesses {

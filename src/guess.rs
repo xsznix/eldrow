@@ -3,15 +3,17 @@ use crate::dict::{green, yellow, letter_idx};
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum HintType {
-  Black = 0,
-  Yellow = 1,
-  Green = 2,
+  Black = 0, // "Not Present"
+  Yellow = 1, // "Present" but not correct
+  Green = 2, // "Correct"
 }
 
 #[derive(Debug)]
 pub struct Guess(pub [(char, HintType); 5]);
 
 impl Guess {
+  // Parses a string in the form "abcde01201" into the program's internal
+  // representation.
   pub fn parse(input: &str) -> Self {
     let mut chars = input.chars();
     let mut result = Guess([('\0', HintType::Black); 5]);
@@ -31,6 +33,7 @@ impl Guess {
     result
   }
 
+  // Assign hint types when applying a guess to the given secret word (solution)
   pub fn evaluate(guess: &str, solution: &str) -> Self {
     debug_assert_eq!(guess.len(), 5);
     debug_assert_eq!(solution.len(), 5);
@@ -61,6 +64,7 @@ impl Guess {
     result
   }
 
+  // Filter down the list of possible secret words given the hints in this guess
   pub fn apply_to(&self, candidates: &mut Bitfield) {
     let mut seen_letters = [0u8; 26];
 

@@ -15,6 +15,9 @@ pub struct Bitfield {
   pub buf: [u64; ELS],
 }
 
+// A bitfield that contains one bit of information for each word in the
+// dictionary. The index of the bit within the bitfield corresponds to the index
+// of the word in the words array in words.rs.
 impl Bitfield {
   pub fn new() -> Self {
     Bitfield {

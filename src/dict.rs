@@ -1,7 +1,21 @@
 use crate::bitfield::Bitfield;
 
+// Precomputed results of applying letter filters to the entire word list.
 struct Dict {
+  // Outer array index: Position of letter in word
+  // Inner array index: Letter index (a = 0, ..., z = 25)
+  // Bitfield index: Index of the word in word list (about = 0, other = 1, ...)
+  // Bit value: True iff the word indicated by bitfield index contains the
+  // letter indicated by inner array index at the position indicated by outer
+  // array index
   exact_match: [[Bitfield; 26]; 5],
+  // Outer array index: Number of times the letter has previously (lower
+  // index/to the left) occurred in the word
+  // Inner array index: Letter index (a = 0, ..., z = 25)
+  // Bitfield index: Index of the word in word list (about = 0, other = 1, ...)
+  // Bit value: True iff the word indicated by bitfield index contains at least
+  // (outer array index + 1) occurrences of the letter indicated by inner array
+  // index
   inexact_match: [[Bitfield; 26]; 5],
 }
 

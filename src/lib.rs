@@ -17,10 +17,16 @@ use words::word_at;
 
 #[wasm_bindgen]
 pub fn make_guess(hints: &str) -> Option<String> {
+  // The list of words that the secret word could be. If a word's bit is on,
+  // that means the word cannot be the secret word.
   let mut candidates = Bitfield::new();
+
+  // Filter down the list of possible words based on the provided guesses.
   for hint in hints.split(' ') {
     Guess::parse(&hint[..]).apply_to(&mut candidates);
   }
+
+  // Short circuit if possible.
   let num_possible = candidates.count();
   if num_possible == 0 {
     return None;
@@ -32,6 +38,9 @@ pub fn make_guess(hints: &str) -> Option<String> {
       }
     }
   }
+
+  // Evaluate all possible next guesses. Find the guess that leaves the least
+  // amount of possible words for the next round in the worst case scenario.
   let mut best_guess: Option<Evaluation> = None;
   for guess_idx in 0..bitfield::LENGTH {
     let mut worst = bitfield::LENGTH;

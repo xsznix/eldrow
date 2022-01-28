@@ -1,6 +1,8 @@
 extern crate wasm_bindgen;
 use wasm_bindgen::prelude::*;
 
+// To keep guess times under 2 seconds, the first guess (after the hard-coded
+// guess "serai") must be precomputed.
 #[wasm_bindgen]
 pub fn first_guess(
   hint1: usize,
