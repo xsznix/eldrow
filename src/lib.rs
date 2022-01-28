@@ -5,12 +5,14 @@ mod bitfield;
 mod dict;
 mod guess;
 mod serai_cache;
+mod visited_guesses;
 mod words;
 
 pub use serai_cache::first_guess;
 
 use bitfield::Bitfield;
 use guess::Guess;
+use visited_guesses::VisitedGuesses;
 use words::word_at;
 
 #[wasm_bindgen]
@@ -33,13 +35,18 @@ pub fn make_guess(hints: &str) -> Option<String> {
   let mut best_guess: Option<Evaluation> = None;
   for guess_idx in 0..bitfield::LENGTH {
     let mut worst = bitfield::LENGTH;
+    let mut visited = VisitedGuesses::new();
     for (solution_idx, eliminated) in candidates.iter().enumerate() {
       if eliminated {
         continue;
       }
+      let guess = Guess::evaluate(word_at(guess_idx), word_at(solution_idx));
+      if visited.has(&guess) {
+        continue;
+      }
+      visited.add(&guess);
       let mut my_eliminated = candidates.clone();
-      Guess::evaluate(word_at(guess_idx), word_at(solution_idx))
-        .apply_to(&mut my_eliminated);
+      guess.apply_to(&mut my_eliminated);
       let new_eliminated = my_eliminated.count();
       worst = worst.min(new_eliminated);
     }

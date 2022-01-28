@@ -9,7 +9,7 @@ pub enum HintType {
 }
 
 #[derive(Debug)]
-pub struct Guess([(char, HintType); 5]);
+pub struct Guess(pub [(char, HintType); 5]);
 
 impl Guess {
   pub fn parse(input: &str) -> Self {
