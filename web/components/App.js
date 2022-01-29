@@ -2,8 +2,11 @@ import classnames from 'classnames';
 import React from 'react';
 
 import Guess from './Guess';
+import Scores from './Scores';
 import Settings from './Settings';
 import Share from './Share';
+
+import {markAsFound} from '../scores';
 
 const BLANK_GUESS = [['', 3], ['', 3], ['', 3], ['', 3], ['', 3]];
 const INITIAL_STATE = {
@@ -15,7 +18,10 @@ const INITIAL_STATE = {
     BLANK_GUESS,
     BLANK_GUESS,
     BLANK_GUESS,
+    BLANK_GUESS,
+    BLANK_GUESS,
   ],
+  lastGuessIsCandidate: true,
   lastGuessWasInvalid: false,
   loading: false,
   gameOver: false,
@@ -40,11 +46,17 @@ export default function App({api}) {
         return {
           ...state,
           activeRow: action.row,
+          gameOver: false,
           guesses: newGuesses,
+          lastGuessIsCandidate: false,
         };
       }
 
       case 'resign':
+      markAsFound(
+        state.activeRow,
+        state.guesses[state.activeRow].map(g => g[0]).join(''),
+      );
       return {
         ...state,
         gameOver: true,
@@ -56,18 +68,12 @@ export default function App({api}) {
         lastGuessWasInvalid: false,
       };
 
-      case 'game over':
-      return {
-        ...state,
-        gameOver: true,
-      };
-
       case 'presubmit':
       return {
         ...state,
         guesses: [
           ...state.guesses.slice(0, state.activeRow + 1),
-          ...state.guesses.slice(state.activeRow + 1).map(row => row.map(g => ['', 3])),
+          ...state.guesses.slice(state.activeRow + 1).map(row => BLANK_GUESS),
           ...(state.guesses.length === state.activeRow + 1 ? [BLANK_GUESS] : [])
         ],
         lastGuessWasInvalid: false,
@@ -75,11 +81,11 @@ export default function App({api}) {
       };
 
       case 'submit': {
-        let newGuess;
+        let newGuessWithFlag;
         if (state.activeRow === 0) {
-          newGuess = api.first_guess(...state.guesses[0].map(g => g[1]));
+          newGuessWithFlag = api.first_guess(...state.guesses[0].map(g => g[1]));
         } else {
-          newGuess = api.make_guess(
+          newGuessWithFlag = api.make_guess(
             state.guesses
               .slice(0, state.activeRow + 1)
               .map(guess => {
@@ -90,23 +96,40 @@ export default function App({api}) {
               .join(' '),
           );
         }
-        if (newGuess == undefined) {
+        if (newGuessWithFlag == undefined) {
           return {
             ...state,
             lastGuessWasInvalid: true,
             loading: false,
           };
         } else {
+          const newGuess = newGuessWithFlag.substring(0, 5);
+          if (newGuess === state.guesses[state.activeRow].map(g => g[0]).join('')) {
+            return {
+              ...state,
+              gameOver: true,
+              loading: false,
+            };
+          }
+          const flag = newGuessWithFlag[5];
+          const gameOver = flag === '!';
+          if (gameOver) {
+            markAsFound(state.activeRow + 1, newGuess);
+          } else if (flag === '.') {
+            markAsFound(state.activeRow + 1, newGuess);
+          }
           const newGuesses = [...state.guesses];
           newGuesses.splice(
             state.activeRow + 1,
             1,
-            newGuess.split('').map(l => [l, 0]),
+            newGuess.split('').map(l => [l, gameOver ? 2 : 0]),
           );
           return {
             ...state,
             activeRow: state.activeRow + 1,
+            gameOver,
             guesses: newGuesses,
+            lastGuessIsCandidate: flag === '.',
             loading: false,
           };
         }
@@ -122,11 +145,15 @@ export default function App({api}) {
   return (
     <>
       <div
-        id="errors"
+        id="notice"
         className={classnames(
-          state.lastGuessWasInvalid && 'visible',
+          state.gameOver && 'success',
+          state.lastGuessWasInvalid && 'error',
         )}
         role="alert">
+        {state.gameOver && <>
+          Game over! You lasted {state.activeRow + 1} {state.activeRow === 0 ? 'turn' : 'turns'}.
+        </>}
         {state.lastGuessWasInvalid && <>No words match your hints! Try again.</>}
       </div>
       <section aria-label="Guesses">
@@ -141,49 +168,36 @@ export default function App({api}) {
           />
         ))}
       </section>
-      {state.gameOver && <div className="modal-wash">
-        <div
-          aria-modal="true"
-          aria-labelledby="gameover-title"
-          aria-describedby="gameover-description"
-          className="modal"
-          role="dialog">
-          <h2 id="gameover-title" role="alert">Game Over</h2>
-          <p id="gameover-description">
-            You lasted {state.activeRow + 1} {state.activeRow === 0 ? 'round' : 'rounds'}.
-            {state.activeRow >= 5 && (state.activeRow >= 6 ? ' Amazing!' : ' Great job!')}
-          </p>
-          <Share state={state} />
-          <button className="modal-action secondary" onClick={() => {
-            dispatch({type: 'reset'});
-          }}>Start Over</button>
-        </div>
-      </div>}
       <div id="game-actions">
-        <button className="game-action primary" onClick={() => {
-          if (state.loading) {
-            return;
-          }
-          if (state.guesses[state.activeRow].some(g => g[1] === 3)) {
-            return;
-          }
-          if (state.guesses[state.activeRow].every(g => g[1] === 2)) {
-            dispatch({type: 'game over'});
-            return;
-          }
-          dispatch({type: 'presubmit'});
-          setTimeout(() => {
-            dispatch({type: 'submit'});
-          }, 50);
-        }}>Enter</button>
-        <button className="game-action secondary" onClick={() => {
-          !state.loading && dispatch({type: 'resign'});
-        }}>That's Correct</button>
+        {state.gameOver ?
+          <Share state={state} /> :
+          <button
+            className="game-action primary"
+            onClick={() => {
+              if (state.loading) {
+                return;
+              }
+              dispatch({type: 'presubmit'});
+              setTimeout(() => {
+                dispatch({type: 'submit'});
+              }, 50);
+            }}>
+            Enter
+          </button>}
+        {!state.gameOver && <button
+          className="game-action secondary"
+          disabled={!state.lastGuessIsCandidate}
+          onClick={() => {
+            !state.loading && dispatch({type: 'resign'});
+          }}>
+          That's Correct
+        </button>}
         <button className="game-action secondary" onClick={() => {
           !state.loading && dispatch({type: 'reset'});
         }}>Start Over</button>
       </div>
       <Settings />
+      <Scores forceRefresh={state.guesses} />
     </>
   );
 }

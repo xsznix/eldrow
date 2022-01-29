@@ -27,14 +27,14 @@ pub fn make_guess(hints: &str) -> Option<String> {
   }
 
   // Short circuit if possible.
-  let num_possible = candidates.count();
-  if num_possible == 0 {
+  let num_eliminated = candidates.count();
+  if num_eliminated == bitfield::LENGTH {
     return None;
   }
-  if num_possible == 1 {
+  if num_eliminated == bitfield::LENGTH - 1 {
     for (i, eliminated) in candidates.iter().enumerate() {
       if !eliminated {
-        return Some(word_at(i).to_owned());
+        return Some(format!("{}{}", word_at(i), "!"));
       }
     }
   }
@@ -76,7 +76,13 @@ pub fn make_guess(hints: &str) -> Option<String> {
       _ => {},
     }
   }
-  best_guess.map(|evaluation| word_at(evaluation.word_idx).to_owned())
+  best_guess.map(|evaluation| {
+    format!(
+      "{}{}",
+      word_at(evaluation.word_idx),
+      if evaluation.is_candidate { "." } else { "*" },
+    )
+  })
 }
 
 struct Evaluation {

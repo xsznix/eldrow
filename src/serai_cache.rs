@@ -10,168 +10,168 @@ pub fn first_guess(
   hint3: usize,
   hint4: usize,
   hint5: usize,
-) -> String {
-  CACHE[hint1][hint2][hint3][hint4][hint5].to_owned()
+) -> Option<String> {
+  CACHE[hint1][hint2][hint3][hint4][hint5].map(|word| word.to_owned())
 }
 
-const CACHE: [[[[[&'static str; 3]; 3]; 3]; 3]; 3] = [
+const CACHE: [[[[[Option<&'static str>; 3]; 3]; 3]; 3]; 3] = [
   [
     [
       [
         [
-          "phony",
-          "linty",
-          "mogul",
+          Some("phony."),
+          Some("linty."),
+          Some("mogul*"),
         ],
         [
-          "nyala",
-          "mania",
-          "adapt",
+          Some("nyala."),
+          Some("mania."),
+          Some("adapt*"),
         ],
         [
-          "talon",
-          "nidal",
-          "hotel",
-        ],
-      ],
-      [
-        [
-          "choon",
-          "clint",
-          "kombu",
-        ],
-        [
-          "orant",
-          "lakin",
-          "guard",
-        ],
-        [
-          "talon",
-          "milty",
-          "braai",
+          Some("talon*"),
+          Some("nidal."),
+          Some("hotel*"),
         ],
       ],
       [
         [
-          "culty",
-          "monty",
-          "ultra",
+          Some("choon*"),
+          Some("clint*"),
+          Some("kombu*"),
         ],
         [
-          "comby",
-          "mania",
-          "capri",
+          Some("orant."),
+          Some("lakin*"),
+          Some("guard*"),
         ],
         [
-          "alamo",
-          "diram",
-          "korai",
-        ],
-      ],
-    ],
-    [
-      [
-        [
-          "dolce",
-          "nitid",
-          "flock",
-        ],
-        [
-          "lawed",
-          "maile",
-          "naevi",
-        ],
-        [
-          "pleon",
-          "email",
-          "about",
+          Some("talon*"),
+          Some("milty*"),
+          Some("braai."),
         ],
       ],
       [
         [
-          "coted",
-          "lined",
-          "uteri",
+          Some("culty*"),
+          Some("monty*"),
+          Some("ultra*"),
         ],
         [
-          "gator",
-          "alarm",
-          "uraei",
+          Some("comby*"),
+          Some("mania*"),
+          Some("capri*"),
         ],
         [
-          "arked",
-          "rimae",
-          "about",
-        ],
-      ],
-      [
-        [
-          "coted",
-          "toyed",
-          "about",
-        ],
-        [
-          "caged",
-          "aired",
-          "aurei",
-        ],
-        [
-          "mount",
-          "about",
-          "about",
+          Some("alamo*"),
+          Some("diram."),
+          Some("korai."),
         ],
       ],
     ],
     [
       [
         [
-          "yente",
-          "blind",
-          "topic",
+          Some("dolce."),
+          Some("nitid*"),
+          Some("flock*"),
         ],
         [
-          "thale",
-          "count",
-          "about",
+          Some("lawed."),
+          Some("maile."),
+          Some("naevi!"),
         ],
         [
-          "dynel",
-          "about",
-          "about",
-        ],
-      ],
-      [
-        [
-          "roted",
-          "tynde",
-          "petri",
-        ],
-        [
-          "lythe",
-          "deair",
-          "about",
-        ],
-        [
-          "blunt",
-          "about",
-          "about",
+          Some("pleon*"),
+          Some("email*"),
+          None,
         ],
       ],
       [
         [
-          "kynde",
-          "dolce",
-          "fermi",
+          Some("coted*"),
+          Some("lined*"),
+          Some("uteri!"),
         ],
         [
-          "empty",
-          "feria",
-          "about",
+          Some("gator*"),
+          Some("alarm*"),
+          Some("uraei!"),
         ],
         [
-          "lindy",
-          "about",
-          "terai",
+          Some("arked*"),
+          Some("rimae!"),
+          None,
+        ],
+      ],
+      [
+        [
+          Some("coted*"),
+          Some("toyed*"),
+          None,
+        ],
+        [
+          Some("caged*"),
+          Some("aired."),
+          Some("aurei!"),
+        ],
+        [
+          Some("mount*"),
+          None,
+          None,
+        ],
+      ],
+    ],
+    [
+      [
+        [
+          Some("yente."),
+          Some("blind*"),
+          Some("topic*"),
+        ],
+        [
+          Some("thale*"),
+          Some("count*"),
+          None,
+        ],
+        [
+          Some("dynel*"),
+          None,
+          None,
+        ],
+      ],
+      [
+        [
+          Some("roted*"),
+          Some("tynde*"),
+          Some("petri."),
+        ],
+        [
+          Some("lythe*"),
+          Some("deair."),
+          None,
+        ],
+        [
+          Some("blunt*"),
+          None,
+          None,
+        ],
+      ],
+      [
+        [
+          Some("kynde*"),
+          Some("dolce*"),
+          Some("fermi."),
+        ],
+        [
+          Some("empty*"),
+          Some("feria."),
+          None,
+        ],
+        [
+          Some("lindy*"),
+          None,
+          Some("terai."),
         ],
       ],
     ],
@@ -180,159 +180,159 @@ const CACHE: [[[[[&'static str; 3]; 3]; 3]; 3]; 3] = [
     [
       [
         [
-          "loony",
-          "lints",
-          "youth",
+          Some("loony*"),
+          Some("lints."),
+          Some("youth*"),
         ],
         [
-          "taluk",
-          "lakin",
-          "costs",
+          Some("taluk*"),
+          Some("lakin*"),
+          Some("costs*"),
         ],
         [
-          "manul",
-          "dimps",
-          "assai",
-        ],
-      ],
-      [
-        [
-          "prost",
-          "brits",
-          "rishi",
-        ],
-        [
-          "bract",
-          "pairs",
-          "about",
-        ],
-        [
-          "ragas",
-          "brava",
-          "about",
+          Some("manul*"),
+          Some("dimps*"),
+          Some("assai."),
         ],
       ],
       [
         [
-          "bundt",
-          "klong",
-          "cursi",
+          Some("prost."),
+          Some("brits."),
+          Some("rishi."),
         ],
         [
-          "plonk",
-          "lapin",
-          "tarsi",
+          Some("bract*"),
+          Some("pairs."),
+          None,
         ],
         [
-          "mount",
-          "liras",
-          "about",
-        ],
-      ],
-    ],
-    [
-      [
-        [
-          "losen",
-          "tined",
-          "nisei",
-        ],
-        [
-          "malts",
-          "maise",
-          "about",
-        ],
-        [
-          "poems",
-          "ideas",
-          "about",
+          Some("ragas."),
+          Some("brava*"),
+          None,
         ],
       ],
       [
         [
-          "trees",
-          "times",
-          "about",
+          Some("bundt*"),
+          Some("klong*"),
+          Some("cursi."),
         ],
         [
-          "talks",
-          "raise",
-          "about",
+          Some("plonk*"),
+          Some("lapin*"),
+          Some("tarsi!"),
         ],
         [
-          "hunks",
-          "about",
-          "about",
-        ],
-      ],
-      [
-        [
-          "model",
-          "chief",
-          "about",
-        ],
-        [
-          "rated",
-          "about",
-          "about",
-        ],
-        [
-          "eyras",
-          "about",
-          "about",
+          Some("mount*"),
+          Some("liras!"),
+          None,
         ],
       ],
     ],
     [
       [
         [
-          "meted",
-          "blind",
-          "cesti",
+          Some("losen."),
+          Some("tined*"),
+          Some("nisei."),
         ],
         [
-          "lunts",
-          "aegis",
-          "about",
+          Some("malts*"),
+          Some("maise."),
+          None,
         ],
         [
-          "might",
-          "about",
-          "about",
-        ],
-      ],
-      [
-        [
-          "reset",
-          "heirs",
-          "about",
-        ],
-        [
-          "right",
-          "reais",
-          "about",
-        ],
-        [
-          "water",
-          "about",
-          "about",
+          Some("poems*"),
+          Some("ideas."),
+          None,
         ],
       ],
       [
         [
-          "moten",
-          "meris",
-          "about",
+          Some("trees."),
+          Some("times*"),
+          None,
         ],
         [
-          "aeros",
-          "about",
-          "about",
+          Some("talks*"),
+          Some("raise."),
+          None,
         ],
         [
-          "teras",
-          "about",
-          "about",
+          Some("hunks*"),
+          None,
+          None,
+        ],
+      ],
+      [
+        [
+          Some("model*"),
+          Some("chief*"),
+          None,
+        ],
+        [
+          Some("rated*"),
+          None,
+          None,
+        ],
+        [
+          Some("eyras!"),
+          None,
+          None,
+        ],
+      ],
+    ],
+    [
+      [
+        [
+          Some("meted*"),
+          Some("blind*"),
+          Some("cesti."),
+        ],
+        [
+          Some("lunts*"),
+          Some("aegis!"),
+          None,
+        ],
+        [
+          Some("might*"),
+          None,
+          None,
+        ],
+      ],
+      [
+        [
+          Some("reset."),
+          Some("heirs."),
+          None,
+        ],
+        [
+          Some("right*"),
+          Some("reais."),
+          None,
+        ],
+        [
+          Some("water*"),
+          None,
+          None,
+        ],
+      ],
+      [
+        [
+          Some("moten*"),
+          Some("meris."),
+          None,
+        ],
+        [
+          Some("aeros!"),
+          None,
+          None,
+        ],
+        [
+          Some("teras!"),
+          None,
+          None,
         ],
       ],
     ],
@@ -341,161 +341,162 @@ const CACHE: [[[[[&'static str; 3]; 3]; 3]; 3]; 3] = [
     [
       [
         [
-          "tools",
-          "knits",
-          "gulch",
+          Some("tools*"),
+          Some("knits*"),
+          Some("gulch*"),
         ],
         [
-          "plans",
-          "lapis",
-          "sampi",
+          Some("plans*"),
+          Some("lapis*"),
+          Some("sampi."),
         ],
         [
-          "mould",
-          "kinds",
-          "satai",
-        ],
-      ],
-      [
-        [
-          "thump",
-          "khats",
-          "about",
-        ],
-        [
-          "chant",
-          "stair",
-          "about",
-        ],
-        [
-          "flong",
-          "items",
-          "about",
+          Some("mould*"),
+          Some("kinds*"),
+          Some("satai."),
         ],
       ],
       [
         [
-          "typos",
-          "patch",
-          "about",
+          Some("thump*"),
+          Some("khats*"),
+          None,
         ],
         [
-          "douts",
-          "sarin",
-          "about",
+          Some("chant*"),
+          Some("stair."),
+          None,
         ],
         [
-          "topic",
-          "about",
-          "about",
-        ],
-      ],
-    ],
-    [
-      [
-        [
-          "potes",
-          "tilde",
-          "solei",
-        ],
-        [
-          "halts",
-          "saine",
-          "about",
-        ],
-        [
-          "knelt",
-          "about",
-          "about",
+          Some("flong*"),
+          Some("items*"),
+          None,
         ],
       ],
       [
         [
-          "opepe",
-          "liver",
-          "about",
+          Some("typos*"),
+          Some("patch*"),
+          None,
         ],
         [
-          "brawn",
-          "about",
-          "about",
+          Some("douts*"),
+          Some("sarin."),
+          None,
         ],
         [
-          "thump",
-          "about",
-          "about",
-        ],
-      ],
-      [
-        [
-          "would",
-          "needs",
-          "about",
-        ],
-        [
-          "sarge",
-          "about",
-          "about",
-        ],
-        [
-          "scrae",
-          "about",
-          "about",
+          Some("topic*"),
+          None,
+          None,
         ],
       ],
     ],
     [
       [
         [
-          "dotes",
-          "seise",
-          "right",
+          Some("potes*"),
+          Some("tilde*"),
+          Some("solei!"),
         ],
         [
-          "seals",
-          "sepia",
-          "about",
+          Some("halts*"),
+          Some("saine."),
+          None,
         ],
         [
-          "month",
-          "about",
-          "about",
-        ],
-      ],
-      [
-        [
-          "fixed",
-          "seirs",
-          "sehri",
-        ],
-        [
-          "sears",
-          "about",
-          "about",
-        ],
-        [
-          "segar",
-          "about",
-          "about",
+          Some("knelt*"),
+          None,
+          None,
         ],
       ],
       [
         [
-          "moves",
-          "found",
-          "about",
+          Some("opepe*"),
+          Some("liver*"),
+          None,
         ],
         [
-          "serra",
-          "about",
-          "about",
+          Some("brawn*"),
+          None,
+          None,
         ],
         [
-          "seral",
-          "about",
-          "serai",
+          Some("thump*"),
+          None,
+          None,
+        ],
+      ],
+      [
+        [
+          Some("would*"),
+          Some("needs*"),
+          None,
+        ],
+        [
+          Some("sarge."),
+          None,
+          None,
+        ],
+        [
+          Some("scrae."),
+          None,
+          None,
+        ],
+      ],
+    ],
+    [
+      [
+        [
+          Some("dotes*"),
+          Some("seise."),
+          Some("right*"),
+        ],
+        [
+          Some("seals."),
+          Some("sepia."),
+          None,
+        ],
+        [
+          Some("month*"),
+          None,
+          None,
+        ],
+      ],
+      [
+        [
+          Some("fixed*"),
+          Some("seirs!"),
+          Some("sehri!"),
+        ],
+        [
+          Some("sears."),
+          None,
+          None,
+        ],
+        [
+          Some("segar."),
+          None,
+          None,
+        ],
+      ],
+      [
+        [
+          Some("moves*"),
+          Some("found*"),
+          None,
+        ],
+        [
+          Some("serra!"),
+          None,
+          None,
+        ],
+        [
+          Some("seral."),
+          None,
+          Some("serai!"),
         ],
       ],
     ],
   ],
-];
+]
+;

@@ -8,6 +8,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.3",
+    "base32768": "^2.0.2",
     "classnames": "^2.3.1",
     "copy-to-clipboard": "^3.3.1",
     "html-webpack-plugin": "^5.5.0",

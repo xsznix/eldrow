@@ -26,7 +26,7 @@ export default function Share({state}) {
       };
     }
   }, [copied]);
-  return <button className="modal-action primary" onClick={() => {
+  return <button className="game-action primary" onClick={() => {
     share(state);
     setCopied(true);
   }}>{copied ? 'Copied!' : 'Share'}</button>;

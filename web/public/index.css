@@ -6,29 +6,33 @@ html {
   --secondary-color: #88898a;
   --error-color: #dc3a28;
   --error-background-color: #4c201b;
+  --success-color: #538d4e;
+  --success-background-color: #2a4727;
   --tile-border-color: #444;
   --tile-not-present-color: #3a3a3c;
   --tile-present-color: #b59f3b;
   --tile-correct-color: #538d4e;
   --tile-loading-color: #272729;
-  --wash-background-color: #0008;
-  --modal-background-color: #202021;
   --link-color: #5be;
   --primary-action-color: #023e9c;
+  --slider-foreground: #538d4e;
+  --slider-background: #303033;
 }
 
 html.colorblind {
   --tile-color: white;
   --tile-present-color: #0090bb;
   --tile-correct-color: #e55b00;
+  --slider-foreground: #e55b00;
 }
 
 html.high-contrast {
   --color: white;
   --tile-color: white;
   --body-background-color: black;
-  --secondary-color: #ddd;
+  --secondary-color: #bbb;
   --tile-border-color: white;
+  --slider-foreground: white;
 }
 
 body {
@@ -90,21 +94,28 @@ a {
   min-height: 617px;
 }
 
-#errors {
+#notice {
   height: 17px;
   width: 287px;
   padding: 16px;
   margin: 16 auto;
   visibility: hidden;
 
-  background: var(--error-background-color);
   border-radius: 6px;
-  border-left: 6px solid var(--error-color);
 }
 
-#errors.visible {
+#notice.error {
+  background: var(--error-background-color);
+  border-left: 6px solid var(--error-color);
   visibility: visible;
   animation: shake 0.5s 0s 1 linear;
+}
+
+#notice.success {
+  background: var(--success-background-color);
+  border-left: 6px solid var(--success-color);
+  visibility: visible;
+  animation: fly-in 0.2s 0s 1 ease-out;
 }
 
 @keyframes shake {
@@ -128,6 +139,18 @@ a {
   }
   100% {
     transform: translateX(0px);
+  }
+}
+
+@keyframes fly-in {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  100% {
+    transform:  translateY(0px);
+    opacity: 1;
   }
 }
 
@@ -226,10 +249,6 @@ button:not(:disabled) {
   padding-right: 14px;
 }
 
-.modal-action {
-  width: 128px;
-}
-
 button.primary {
   background: var(--primary-action-color);
 }
@@ -238,8 +257,13 @@ button.secondary {
   background: var(--tile-not-present-color);
 }
 
-html.high-contrast .game-action,
-html.high-contrast .modal-action {
+.game-action:disabled {
+  cursor: not-allowed;
+  color: var(--secondary-color);
+  opacity: 0.7;
+}
+
+html.high-contrast .game-action {
   border: 2px solid var(--tile-border-color);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -250,50 +274,57 @@ html.high-contrast button.secondary {
   background: none;
 }
 
-.game-action + .game-action, .modal-action + .modal-action {
+html.high-contrast .game-action:disabled {
+  border-color: var(--secondary-color);
+  text-decoration: line-through;
+  opacity: 1;
+}
+
+.game-action + .game-action {
   margin-left: 8px;
 }
 
-.modal-wash {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--wash-background-color);
-}
-
-.modal {
-  position: absolute;
-  top: 50%;
-  bottom: 50%;
-  left: 50%;
-  right: 50%;
-  height: fit-content;
-  width: 300px;
-  margin: -82px -150px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 16px;
-  border-radius: 6px;
-  background: var(--modal-background-color);
-  z-index: 1;
-}
-
-.modal > h2 {
-  margin-top: 8px;
-  font-weight: 500;
-}
-
-#about, #settings {
+#scores, #about, #settings {
   line-height: 1.4;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0 8px;
+}
+
+.scores-grid {
+  display: grid;
+  grid-template-columns: 65px auto 85px;
+  grid-gap: 0 8px;
+}
+
+.scores-grid .header {
+  font-weight: 700;
+}
+
+.score-slider {
+  position: relative;
+}
+
+.score-slider.header {
+  text-align: center;
+}
+
+.score-slider-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--slider-background);
+}
+
+.score-slider-foreground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: var(--slider-foreground);
 }
 
 #settings {
