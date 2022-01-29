@@ -4,7 +4,7 @@ import React from 'react';
 const EMOJIS = ['⬛', '🟨', '🟩'];
 function share(state) {
   copy(
-`Eldrow ${state.activeRow + 1}/∞
+`Eldrow ${state.activeRow + 1}/8
 
 ${state.guesses.slice(0, state.activeRow + 1)
   .map(row => row.map(g => EMOJIS[g[1]]).join(''))
