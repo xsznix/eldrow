@@ -2,7 +2,12 @@ import React from 'react';
 
 const html = document.documentElement;
 
-export default function Settings() {
+export default function Settings({dispatch}) {
+  const [easy, setEasy] = useSetting(
+    'eldrow-easy',
+    false,
+    undefined,
+  );
   const [colorBlind, setColorBlind] = useSetting(
     'eldrow-colorblind',
     false,
@@ -14,6 +19,18 @@ export default function Settings() {
     'high-contrast',
   );
   return <div id="settings">
+    <label htmlFor="easy">
+      <input
+        type="checkbox"
+        id="easy"
+        defaultChecked={easy}
+        onChange={e => {
+          setEasy(e);
+          dispatch({type: 'set easy', easy: !!e.target.checked});
+        }}
+      />
+      Easy mode (Emulate Wordle's hard mode)
+    </label>
     <label htmlFor="colorblind">
       <input
         type="checkbox"

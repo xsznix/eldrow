@@ -16,14 +16,16 @@ use visited_guesses::VisitedGuesses;
 use words::word_at;
 
 #[wasm_bindgen]
-pub fn make_guess(hints: &str) -> Option<String> {
+pub fn make_guess(hints: &str, easy: bool) -> Option<String> {
   // The list of words that the secret word could be. If a word's bit is on,
   // that means the word cannot be the secret word.
   let mut candidates = Bitfield::new();
 
   // Filter down the list of possible words based on the provided guesses.
-  for hint in hints.split(' ') {
-    Guess::parse(&hint[..]).apply_to(&mut candidates);
+  if hints.len() > 0 {
+    for hint in hints.split(' ') {
+      Guess::parse(&hint[..]).apply_to(&mut candidates);
+    }
   }
 
   // Short circuit if possible.
@@ -43,6 +45,9 @@ pub fn make_guess(hints: &str) -> Option<String> {
   // amount of possible words for the next round in the worst case scenario.
   let mut best_guess: Option<Evaluation> = None;
   for guess_idx in 0..bitfield::LENGTH {
+    if easy && candidates.get(guess_idx) {
+      continue;
+    }
     let mut worst = bitfield::LENGTH;
     let mut visited = VisitedGuesses::new();
     for (solution_idx, eliminated) in candidates.iter().enumerate() {

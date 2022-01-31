@@ -1,7 +1,7 @@
 import {decode, encode} from 'base32768';
 
-export function markAsFound(guessNumber, word) {
-  const storageKey = `eldrow-guesses-${guessNumber}`;
+export function markAsFound(guessNumber, word, easy) {
+  const storageKey = `eldrow-guesses-${easy ? 'easy-' : ''}${guessNumber}`;
   const existing = localStorage.getItem(storageKey);
   const packed = packWord(word);
   let buffer;
@@ -25,13 +25,21 @@ export function markAsFound(guessNumber, word) {
   localStorage.setItem(storageKey, encoded);
 }
 
-export function countFound(guessNumber) {
-  const found = localStorage.getItem(`eldrow-guesses-${guessNumber}`)
+export function countFound(guessNumber, easy) {
+  const found = localStorage.getItem(`eldrow-guesses-${easy ? 'easy-' : ''}${guessNumber}`)
   if (found == null) {
     return 0;
   }
   const decoded = decode(found);
   return decoded.length / 4;
+}
+
+export function getEasyMode() {
+  return localStorage.getItem('eldrow-easy') === 'true';
+}
+
+export function setEasyMode(easy) {
+  localStorage.setItem('eldrow-easy', easy ? 'true' : 'false');
 }
 
 function sortedIndex(buffer, dataView, needle) {

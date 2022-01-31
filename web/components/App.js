@@ -6,15 +6,14 @@ import Scores from './Scores';
 import Settings from './Settings';
 import Share from './Share';
 
-import {markAsFound} from '../scores';
+import {getEasyMode, markAsFound} from '../scores';
 
 const BLANK_GUESS = [['', 3], ['', 3], ['', 3], ['', 3], ['', 3]];
 const INITIAL_STATE = {
   activeRow: 0,
+  easy: getEasyMode(),
   guesses: [
     [['s', 0], ['e', 0], ['r', 0], ['a', 0], ['i', 0]],
-    BLANK_GUESS,
-    BLANK_GUESS,
     BLANK_GUESS,
     BLANK_GUESS,
     BLANK_GUESS,
@@ -56,6 +55,7 @@ export default function App({api}) {
       markAsFound(
         state.activeRow,
         state.guesses[state.activeRow].map(g => g[0]).join(''),
+        state.easy,
       );
       return {
         ...state,
@@ -82,7 +82,7 @@ export default function App({api}) {
 
       case 'submit': {
         let newGuessWithFlag;
-        if (state.activeRow === 0) {
+        if (!state.easy && state.activeRow === 0) {
           newGuessWithFlag = api.first_guess(...state.guesses[0].map(g => g[1]));
         } else {
           newGuessWithFlag = api.make_guess(
@@ -94,6 +94,7 @@ export default function App({api}) {
                 return letters + scores;
               })
               .join(' '),
+            state.easy,
           );
         }
         if (newGuessWithFlag == undefined) {
@@ -114,15 +115,21 @@ export default function App({api}) {
           const flag = newGuessWithFlag[5];
           const gameOver = flag === '!';
           if (gameOver) {
-            markAsFound(state.activeRow + 1, newGuess);
+            markAsFound(state.activeRow + 1, newGuess, state.easy);
           } else if (flag === '.') {
-            markAsFound(state.activeRow + 1, newGuess);
+            markAsFound(state.activeRow + 1, newGuess, state.easy);
           }
           const newGuesses = [...state.guesses];
           newGuesses.splice(
             state.activeRow + 1,
             1,
-            newGuess.split('').map(l => [l, gameOver ? 2 : 0]),
+            newGuess.split('').map((l, i) => [
+              l,
+              gameOver ||
+                state.guesses.slice(0, state.activeRow + 1).some(
+                  row => row[i][0] === l && row[i][1] === 2,
+                ) ? 2 : 0,
+            ]),
           );
           return {
             ...state,
@@ -136,7 +143,16 @@ export default function App({api}) {
       }
 
       case 'reset':
-      return INITIAL_STATE;
+      return {
+        ...INITIAL_STATE,
+        easy: getEasyMode(),
+      };
+
+      case 'set easy':
+      return {
+        ...INITIAL_STATE,
+        easy: action.easy,
+      };
 
       default:
       return state;
@@ -196,8 +212,8 @@ export default function App({api}) {
           !state.loading && dispatch({type: 'reset'});
         }}>Start Over</button>
       </div>
-      <Settings />
-      <Scores forceRefresh={state.guesses} />
+      <Settings dispatch={dispatch} />
+      <Scores easy={state.easy} __unused_guesses={state.guesses} />
     </>
   );
 }
