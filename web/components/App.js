@@ -6,6 +6,7 @@ import Scores from './Scores';
 import Settings from './Settings';
 import Share from './Share';
 
+import doubleCheck from '../doubleCheck';
 import {getEasyMode, markAsFound} from '../scores';
 
 const BLANK_GUESS = [['', 3], ['', 3], ['', 3], ['', 3], ['', 3]];
@@ -169,8 +170,21 @@ export default function App({api}) {
         role="alert">
         {state.gameOver && <>
           Game over! You lasted {state.activeRow + 1} {state.activeRow === 0 ? 'turn' : 'turns'}.
+          <br />
+          <a href="#" onClick={e => {
+            e.preventDefault();
+            doubleCheck(state, api);
+          }}>Not your word?</a>
         </>}
-        {state.lastGuessWasInvalid && <>No words match your hints! Try again.</>}
+        {state.lastGuessWasInvalid &&
+          <>
+            No words match your hints!
+            <br />
+            <a href="#" onClick={e => {
+              e.preventDefault();
+              doubleCheck(state, api);
+            }}>Are you sure?</a>
+          </>}
       </div>
       <section aria-label="Guesses">
         {state.guesses.map((guess, i) => (

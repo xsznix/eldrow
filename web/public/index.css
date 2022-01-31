@@ -95,9 +95,9 @@ a {
 }
 
 #notice {
-  height: 17px;
+  height: 40px;
   width: 287px;
-  padding: 16px;
+  padding: 12px 16px;
   margin: 16 auto;
   visibility: hidden;
 
