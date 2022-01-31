@@ -9,7 +9,9 @@ function share(state) {
 ${state.guesses.slice(0, state.activeRow + 1)
   .map(row => row.map(g => EMOJIS[g[1]]).join(''))
   .join('\n')
-}`);
+}
+
+https://www.simn.me/eldrow`);
 }
 
 export default function Share({state}) {
