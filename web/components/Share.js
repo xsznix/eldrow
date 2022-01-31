@@ -4,14 +4,12 @@ import React from 'react';
 const EMOJIS = ['⬛', '🟨', '🟩'];
 function share(state) {
   copy(
-`Eldrow ${state.activeRow + 1}/8
+`Eldrow ${state.easy ? '(Easy) ' : ''}${state.activeRow + 1}/${state.easy ? 16 : 8}
 
 ${state.guesses.slice(0, state.activeRow + 1)
   .map(row => row.map(g => EMOJIS[g[1]]).join(''))
   .join('\n')
-}
-
-https://www.simn.me/eldrow`);
+}`);
 }
 
 export default function Share({state}) {
