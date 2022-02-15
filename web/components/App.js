@@ -49,6 +49,7 @@ export default function App({api}) {
           gameOver: false,
           guesses: newGuesses,
           lastGuessIsCandidate: false,
+          lastGuessWasInvalid: false,
         };
       }
 
