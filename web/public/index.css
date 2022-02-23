@@ -171,6 +171,7 @@ a {
   width: 60px;
   margin: 3px;
   border: 2px solid var(--tile-border-color);
+  padding: 0;
 
   color: var(--tile-color);
 
