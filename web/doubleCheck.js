@@ -1,3 +1,9 @@
+const ORANGE = '🟧';
+const YELLOW = '🟨';
+const GREEN = '🟩';
+const BLUE = '🟦';
+const GREY = '⬛';
+
 export default function doubleCheck(state, api) {
   const secret = prompt('What is your secret word?')?.toLowerCase();
   if (secret == null) {
@@ -21,7 +27,26 @@ export default function doubleCheck(state, api) {
     const guessStr = letters + scores;
     guessStrs.push(guessStr);
     if (api.make_guess([...guessStrs, `${secret}22222`].join(' '), state.easy) == undefined) {
-      alert(`${secret.toUpperCase()} is in Eldrow's dictionary. Check your hints for ${letters.toUpperCase()} and try again.`);
+      const colorblind = localStorage.getItem('eldrow-colorblind') === 'true';
+      const hints = [GREY, GREY, GREY, GREY, GREY];
+      const remainingSecretLetters = secret.split('');
+      for (let i = 4; i >= 0; i--) {
+        if (letters[i] === secret[i]) {
+          hints[i] = colorblind ? ORANGE : GREEN;
+          remainingSecretLetters.splice(i, 1);
+        }
+      }
+      for (let i = 0; i < 5; i++) {
+        if (letters[i] === secret[i]) {
+          continue;
+        }
+        const found = remainingSecretLetters.indexOf(letters[i]);
+        if (found !== -1) {
+          hints[i] = colorblind ? BLUE : YELLOW;
+          remainingSecretLetters.splice(found, 1);
+        }
+      }
+      alert(`${secret.toUpperCase()} is in Eldrow's dictionary. Check your colors for ${letters.toUpperCase()}: ${hints.join('')}`);
       return;
     }
   }
