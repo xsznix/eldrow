@@ -26,6 +26,10 @@ export default function doubleCheck(state, api) {
     const scores = guess.map(g => g[1].toString()).join('');
     const guessStr = letters + scores;
     guessStrs.push(guessStr);
+    if (guessStr === `${secret}22222`) {
+      alert(`Eldrow correctly guessed ${secret.toUpperCase()}.`);
+      return;
+    }
     if (api.make_guess([...guessStrs, `${secret}22222`].join(' '), state.easy) == undefined) {
       const colorblind = localStorage.getItem('eldrow-colorblind') === 'true';
       const hints = [GREY, GREY, GREY, GREY, GREY];
