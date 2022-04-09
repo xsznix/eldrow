@@ -342,3 +342,7 @@ html.high-contrast .game-action:disabled {
 #settings input {
   margin-right: 8px;
 }
+
+#found-words-list {
+  columns: 64px;
+}

@@ -1,5 +1,7 @@
 import {decode, encode} from 'base32768';
 
+const events = new EventTarget();
+
 export function markAsFound(guessNumber, word, easy) {
   const storageKey = `eldrow-guesses-${easy ? 'easy-' : ''}${guessNumber}`;
   const existing = localStorage.getItem(storageKey);
@@ -23,6 +25,7 @@ export function markAsFound(guessNumber, word, easy) {
   dataView.setUint32(4 * insertIndex, packed, true);
   const encoded = encode(buffer);
   localStorage.setItem(storageKey, encoded);
+  events.dispatchEvent(new CustomEvent(`${easy ? 'easy-' : ''}${guessNumber}`));
 }
 
 export function countFound(guessNumber, easy) {
@@ -40,6 +43,29 @@ export function getEasyMode() {
 
 export function setEasyMode(easy) {
   localStorage.setItem('eldrow-easy', easy ? 'true' : 'false');
+}
+
+export function getFoundWords(guessNumber, easy) {
+  const storageKey = `eldrow-guesses-${easy ? 'easy-' : ''}${guessNumber}`;
+  const existing = localStorage.getItem(storageKey);
+  if (existing == null) {
+    return [];
+  }
+  const decoded = decode(existing);
+  const dataView = new DataView(decoded.buffer);
+  const result = [];
+  for (let i = 0; i < decoded.length; i += 4) {
+    result.push(unpackWord(dataView.getUint32(i, true)));
+  }
+  result.sort();
+  return result;
+}
+
+export function onFoundWordsUpdate(guessNumber, easy, callback) {
+  events.addEventListener(`${easy ? 'easy-' : ''}${guessNumber}`, callback);
+  return () => {
+    events.removeEventListener(`${easy ? 'easy-' : ''}${guessNumber}`, callback);
+  };
 }
 
 function sortedIndex(buffer, dataView, needle) {
