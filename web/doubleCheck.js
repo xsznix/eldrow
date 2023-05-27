@@ -5,7 +5,7 @@ const BLUE = '🟦';
 const GREY = '⬛';
 
 export default function doubleCheck(state, api) {
-  const secret = prompt('What is your secret word?')?.toLowerCase();
+  const secret = prompt('What is your secret word?')?.toLowerCase().trim();
   if (secret == null) {
     return;
   }
